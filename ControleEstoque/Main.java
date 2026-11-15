@@ -3,10 +3,17 @@ import java.util.Scanner;
 
 public class Main {
 
+
     public static void main(String[] args) {
 
         Scanner entrada = new Scanner(System.in);
         Estoque estoque = new Estoque();
+
+           try {
+            estoque.carregar();
+        } catch (Exception e) {
+            System.out.println("Erro ao carregar produtos: " + e.getMessage());
+        }
 
         int opcao = -1;
 
@@ -30,7 +37,7 @@ public class Main {
                     System.out.print("Nome: ");
                     String nome = entrada.nextLine();
 
-                    if (nome.equals("") || nome.equals(";")) {
+                    if (nome.equals("") || nome.contains(";")) {
                         throw new IllegalArgumentException("Nome invalido.");
                     }
 
@@ -92,6 +99,7 @@ public class Main {
 
                 } else if (opcao == 0) {
 
+                    estoque.salvar();
                     System.out.println("Ate logo!");
 
                 } else {

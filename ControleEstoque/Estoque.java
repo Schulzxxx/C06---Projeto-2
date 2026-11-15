@@ -40,14 +40,18 @@ public class Estoque {
         Path arquivo = Path.of("produtos.txt");
         if (!Files.exists(arquivo)) return;
         for (String linha : Files.readAllLines(arquivo)) {
-            String[] partes = linha.split(";");
-            if (partes.length != 3) continue;
-            int quantidade = Integer.parseInt(partes[2]);
-            if (quantidade < 0) continue;
-            Produto p = partes[0].equals("Perecivel")
-                ? new ProdutoPerecivel(partes[1], quantidade)
-                : new ProdutoComum(partes[1], quantidade);
-            cadastrar(p);
+            try {
+                String[] partes = linha.split(";");
+                if (partes.length != 3) continue;
+                int quantidade = Integer.parseInt(partes[2]);
+                if (quantidade < 0) continue;
+                Produto p = partes[0].equals("Perecivel")
+                    ? new ProdutoPerecivel(partes[1], quantidade)
+                    : new ProdutoComum(partes[1], quantidade);
+                cadastrar(p);
+            } catch (Exception e) {
+                System.out.println("Linha ignorada: " + linha);
+            }
         }
     }
 }
